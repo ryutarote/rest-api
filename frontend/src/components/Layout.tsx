@@ -1,25 +1,20 @@
+import { FC, ReactNode } from 'react';
 import Head from 'next/head';
 
 type Props = {
 	title: string;
-	children: React.ReactNode;
+	children: ReactNode;
 };
 
-export const Layout: React.FC<Props> = ({ title, children }) => {
+export const Layout: FC<Props> = ({ children, title = 'Nextjs' }) => {
 	return (
-		<div className='mx-auto max-w-7xl  flex flex-col items-center  justify-center px-4 sm:px-6 lg:px-8'>
+		<div className='flex min-h-screen flex-col items-center justify-center'>
 			<Head>
 				<title>{title}</title>
-				<meta
-					name='viewport'
-					content='minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no'
-				/>
-				<link rel='shortcut icon' href='/favicon.svg' />
 			</Head>
-			<header className='py-6'>
-				<h1 className='text-3xl font-bold'>{title}</h1>
-			</header>
-			<main>{children}</main>
+			<main className='flex w-screen flex-1 flex-col items-center justify-center'>
+				{children}
+			</main>
 		</div>
 	);
 };
