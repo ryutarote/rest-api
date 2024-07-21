@@ -1,22 +1,32 @@
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { Task } from '@prisma/client';
 
-export const useQueryTasks = () => {
+export const useQueryTasks = (): UseQueryResult<Task[], Error> => {
 	const router = useRouter();
-	const getTasks = async () => {
+
+	const getTasks = async (): Promise<Task[]> => {
 		const { data } = await axios.get<Task[]>(
 			`${process.env.NEXT_PUBLIC_API_URL}/todo`
 		);
 		return data;
 	};
-	return useQuery<Task[], Error>({
+
+	const query = useQuery<Task[], Error>({
 		queryKey: ['tasks'],
 		queryFn: getTasks,
-		onError: (err: any) => {
-			if (err.response.status === 401 || err.response.status === 403)
-				router.push('/');
-		},
 	});
+
+	if (query.error) {
+		const axiosError = query.error as AxiosError;
+		if (
+			axiosError.response?.status === 401 ||
+			axiosError.response?.status === 403
+		) {
+			router.push('/');
+		}
+	}
+
+	return query;
 };

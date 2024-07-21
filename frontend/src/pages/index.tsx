@@ -5,9 +5,9 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
-import { Layout } from '@/components/Layout';
 import AuthForm from '@/components/AuthForm';
 import AuthContainer from '@/components/AuthContainer';
+import Head from 'next/head';
 
 const schema = zod.object({
 	email: zod.string().email({ message: '無効なメールアドレスです' }),
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState(false);
 
-	const form = useForm({
+	const form = useForm<{ email: string; password: string }>({
 		resolver: zodResolver(schema),
 		defaultValues: {
 			email: '',
@@ -56,23 +56,26 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<Layout title={'TODO アプリ'}>
-			<div className='min-h-screen flex justify-center items-center bg-gray-100'>
-				<AuthContainer
-					loading={loading}
-					isRegister={isRegister}
-					error={error}
-					success={success}
-				>
-					<AuthForm
+		<div className='min-h-screen flex flex-col items-center bg-gradient-to-b from-purple-800 to-blue-900 text-white'>
+			<div className='min-h-screen w-full container mt-4 py-8 flex flex-col items-center justify-center'>
+				<h1 className='text-2xl font-bold text-center mb-6'>TODO アプリ</h1>
+				<div className='flex items-center'>
+					<AuthContainer
+						loading={loading}
 						isRegister={isRegister}
-						form={form}
-						onSubmit={form.handleSubmit(handleSubmit)}
-						toggleRegister={() => setIsRegister(!isRegister)}
-					/>
-				</AuthContainer>
+						error={error}
+						success={success}
+					>
+						<AuthForm
+							isRegister={isRegister}
+							form={form}
+							onSubmit={form.handleSubmit(handleSubmit)}
+							toggleRegister={() => setIsRegister(!isRegister)}
+						/>
+					</AuthContainer>
+				</div>
 			</div>
-		</Layout>
+		</div>
 	);
 };
 

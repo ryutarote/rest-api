@@ -18,6 +18,7 @@ CREATE TABLE "Task" (
     "title" TEXT NOT NULL,
     "description" TEXT,
     "userId" INTEGER NOT NULL,
+    "completed" BOOLEAN DEFAULT false,
 
     CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
 );

@@ -1,22 +1,33 @@
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { User } from '@prisma/client';
 
-export const useQueryUser = () => {
+type UserWithoutPassword = Omit<User, 'password'>;
+
+export const useQueryUser = (): UseQueryResult<UserWithoutPassword, Error> => {
 	const router = useRouter();
-	const getUser = async () => {
+	const getUser = async (): Promise<UserWithoutPassword> => {
 		const { data } = await axios.get<Omit<User, 'password'>>(
 			`${process.env.NEXT_PUBLIC_API_URL}/user`
 		);
 		return data;
 	};
-	return useQuery<Omit<User, 'password'>, Error>({
+
+	const query = useQuery<UserWithoutPassword, Error, UserWithoutPassword>({
 		queryKey: ['user'],
 		queryFn: getUser,
-		onError: (err: any) => {
-			if (err.response.status === 401 || err.response.status === 403)
-				router.push('/');
-		},
 	});
+
+	if (query.error) {
+		const axiosError = query.error as AxiosError;
+		if (
+			axiosError.response?.status === 401 ||
+			axiosError.response?.status === 403
+		) {
+			router.push('/');
+		}
+	}
+
+	return query;
 };

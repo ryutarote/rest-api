@@ -6,9 +6,9 @@ export const UserInfo = () => {
 	const { data: user, status } = useQueryUser();
 	if (status === 'error') return <p>エラーが発生しました</p>;
 	return (
-		<div>
+		<div className='text-center mb-4'>
 			<Suspense fallback={<LoadingOverlay />}>
-				<p>メールアドレス: {user?.email}</p>
+				<p className='text-xl font-semibold'>アカウント: {user?.email}</p>
 			</Suspense>
 		</div>
 	);
