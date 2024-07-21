@@ -24,12 +24,11 @@ model User {
 }
 
 model Task {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  status    String
+  id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title String
+  description String?
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
