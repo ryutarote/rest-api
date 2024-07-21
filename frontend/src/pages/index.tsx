@@ -43,11 +43,10 @@ const Home: NextPage = () => {
 			const response = await axios.post(url, data);
 
 			if (isRegister) {
-				setSuccess(true);
-			} else {
-				form.reset();
-				router.push('/dashboard');
+				await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, data);
 			}
+			form.reset();
+			router.push('/dashboard');
 		} catch (e: any) {
 			setError(e.response?.data?.message || 'エラーが発生しました');
 		} finally {

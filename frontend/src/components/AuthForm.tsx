@@ -1,81 +1,57 @@
-import React from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { FC } from 'react';
+import { UseFormReturn, FieldValues } from 'react-hook-form';
 
-export interface AuthFormProps {
+interface AuthFormProps<TFormValues extends FieldValues> {
 	isRegister: boolean;
-	form: UseFormReturn<{ email: string; password: string }>;
+	form: UseFormReturn<TFormValues>;
 	onSubmit: () => void;
 	toggleRegister: () => void;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({
+const AuthForm: FC<AuthFormProps<{ email: string; password: string }>> = ({
 	isRegister,
 	form,
 	onSubmit,
 	toggleRegister,
 }) => {
 	return (
-		<>
-			<form className='mt-8 space-y-6' onSubmit={onSubmit}>
-				<div>
-					<label
-						htmlFor='email'
-						className='block text-sm font-medium text-gray-700'
-					>
-						メールアドレス
-					</label>
-					<input
-						id='email'
-						type='email'
-						required
-						className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mt-1'
-						placeholder='example@gmail.com'
-						{...form.register('email')}
-					/>
-					{form.formState.errors.email && (
-						<p className='text-red-500 text-xs mt-1'>
-							{form.formState.errors.email.message}
-						</p>
-					)}
-				</div>
-				<div>
-					<label
-						htmlFor='password'
-						className='block text-sm font-medium text-gray-700'
-					>
-						パスワード
-					</label>
-					<input
-						id='password'
-						type='password'
-						required
-						className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mt-1'
-						placeholder='パスワード'
-						{...form.register('password')}
-					/>
-					{form.formState.errors.password && (
-						<p className='text-red-500 text-xs mt-1'>
-							{form.formState.errors.password.message}
-						</p>
-					)}
-				</div>
-				<button
-					type='button'
-					className='text-sm text-indigo-600 hover:text-indigo-500 mt-2 block'
-					onClick={toggleRegister}
-				>
-					{isRegister
-						? 'アカウントをお持ちですか？ ログイン'
-						: 'アカウントをお持ちでないですか？ 登録'}
-				</button>
-				<button
-					type='submit'
-					className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-4'
-				>
-					{isRegister ? '登録' : 'ログイン'}
-				</button>
-			</form>
-		</>
+		<form onSubmit={onSubmit}>
+			<div className='mb-4'>
+				<label className='block text-gray-700 mb-2' htmlFor='email'>
+					メールアドレス
+				</label>
+				<input
+					{...form.register('email')}
+					className='w-full p-2 border border-gray-300 text-black rounded'
+					id='email'
+					type='email'
+				/>
+			</div>
+			<div className='mb-4'>
+				<label className='block text-gray-700 mb-2' htmlFor='password'>
+					パスワード
+				</label>
+				<input
+					{...form.register('password')}
+					className='w-full p-2 text-black border border-gray-300 rounded'
+					id='password'
+					type='password'
+				/>
+			</div>
+			<button
+				type='submit'
+				className='w-full bg-blue-500 text-white p-2 rounded'
+			>
+				{isRegister ? 'サインアップ' : 'ログイン'}
+			</button>
+			<button
+				type='button'
+				onClick={toggleRegister}
+				className='w-full bg-gray-500 text-white p-2 rounded mt-2'
+			>
+				{isRegister ? 'ログインへ' : 'サインアップへ'}
+			</button>
+		</form>
 	);
 };
 

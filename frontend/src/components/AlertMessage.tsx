@@ -13,10 +13,14 @@ const AlertMessage: React.FC<AlertMessageProps> = ({ type, message }) => {
 		) : (
 			<CheckCircleIcon className='w-5 h-5 inline mr-2' />
 		);
-	const color = type === 'error' ? 'red' : 'green';
+
+	const bgColor = type === 'error' ? 'bg-red-100' : 'bg-green-100';
+	const borderColor = type === 'error' ? 'border-red-400' : 'border-green-400';
+	const textColor = type === 'error' ? 'text-red-700' : 'text-green-700';
+
 	return (
 		<div
-			className={`bg-${color}-100 border border-${color}-400 text-${color}-700 px-4 py-3 rounded relative`}
+			className={`${bgColor} ${borderColor} ${textColor} px-4 py-3 rounded relative`}
 			role='alert'
 		>
 			{icon}
