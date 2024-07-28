@@ -17,7 +17,7 @@ import { Request } from 'express';
 import { TodoService } from './todo.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from '@prisma/client';
+import { Task, User } from '@prisma/client';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('todo')
@@ -26,7 +26,8 @@ export class TodoController {
 
   @Get()
   getTasks(@Req() req: Request): Promise<Task[]> {
-    return this.todoService.getTasks(req.user.id);
+    const user = req.user as User;
+    return this.todoService.getTasks(user.id);
   }
 
   @Get(':id')
@@ -34,12 +35,14 @@ export class TodoController {
     @Req() req: Request,
     @Param('id', ParseIntPipe) taskId: number,
   ): Promise<Task> {
-    return this.todoService.getTaskById(req.user.id, taskId);
+    const user = req.user as User;
+    return this.todoService.getTaskById(user.id, taskId);
   }
 
   @Post()
   createTask(@Req() req: Request, @Body() dto: CreateTaskDto): Promise<Task> {
-    return this.todoService.createTask(req.user.id, dto);
+    const user = req.user as User;
+    return this.todoService.createTask(user.id, dto);
   }
 
   @Patch(':id')
@@ -48,7 +51,8 @@ export class TodoController {
     @Param('id', ParseIntPipe) taskId: number,
     @Body() dto: UpdateTaskDto,
   ): Promise<Task> {
-    return this.todoService.updateTaskById(req.user.id, taskId, dto);
+    const user = req.user as User;
+    return this.todoService.updateTaskById(user.id, taskId, dto);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -57,6 +61,7 @@ export class TodoController {
     @Req() req: Request,
     @Param('id', ParseIntPipe) taskId: number,
   ): Promise<void> {
-    return this.todoService.deleteTaskById(req.user.id, taskId);
+    const user = req.user as User;
+    return this.todoService.deleteTaskById(user.id, taskId);
   }
 }
