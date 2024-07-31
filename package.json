@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build:frontend": "cd frontend && pnpm install && pnpm run build",
-		"build:backend": "cd backend && pnpm install && pnpm run build",
+		"build:backend": "cd backend && pnpm install",
 		"start": "cd backend && pnpm run start:prod"
 	},
 	"keywords": [],
