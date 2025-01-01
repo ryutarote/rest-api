@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.enableCors({
     credentials: true,
-    origin: ['https://rest-todo-frontend.vercel.app'],
+    origin: ['http://localhost:3005', 'https://rest-todo-frontend.vercel.app'],
   });
   app.use(cookieParser());
   app.use(
