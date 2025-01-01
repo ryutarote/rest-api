@@ -1,4 +1,3 @@
-// TaskItem.tsx
 import { FC, useCallback, useEffect, useState } from 'react';
 import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid';
 import { Task } from '@prisma/client';
