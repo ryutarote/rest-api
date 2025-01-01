@@ -22,7 +22,7 @@ const AuthForm: FC<AuthFormProps<{ email: string; password: string }>> = ({
 				</label>
 				<input
 					{...form.register('email')}
-					className='w-full p-2 border border-gray-300 text-black rounded'
+					className='w-full p-2 border border-gray-300 bg-white text-black rounded'
 					id='email'
 					type='email'
 				/>
@@ -33,7 +33,7 @@ const AuthForm: FC<AuthFormProps<{ email: string; password: string }>> = ({
 				</label>
 				<input
 					{...form.register('password')}
-					className='w-full p-2 text-black border border-gray-300 rounded'
+					className='w-full p-2 bg-white text-black border border-gray-300 rounded'
 					id='password'
 					type='password'
 				/>
